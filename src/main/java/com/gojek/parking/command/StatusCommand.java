@@ -1,27 +1,26 @@
-package com.gojek.parking.runner;
+package com.gojek.parking.command;
 
 import org.apache.log4j.Logger;
 
 import com.gojek.parking.domain.Car;
 import com.gojek.parking.domain.ParkingLot;
-import com.gojek.parking.enums.Colour;
 import com.gojek.parking.enums.Command;
 import com.gojek.parking.exception.ValidationException;
 import com.gojek.parking.request.CommandRequest;
 import com.gojek.parking.response.CommandResult;
 
 /**
- * This class is for handling various cases of "REGISTRATION_NUMBERS_FOR_CARS_WITH_COLOUR" command.
+ * This class is for handling various cases of "STATUS" command.
  * 
  * @author Vikas Garg
  *
  */
-public class RegistrationNoCarWithColourCommand extends AbstractCommand {
+public class StatusCommand extends AbstractCommand {
 
-	private static final Logger logger = Logger.getLogger(RegistrationNoCarWithColourCommand.class);
+	private static final Logger logger = Logger.getLogger(StatusCommand.class);
 	
-	public RegistrationNoCarWithColourCommand() {
-		super.currentCommand = Command.REGISTRATION_NUMBERS_FOR_CARS_WITH_COLOUR;
+	public StatusCommand() {
+		super.currentCommand = Command.STATUS;
 	}
 	
 	/**
@@ -40,24 +39,21 @@ public class RegistrationNoCarWithColourCommand extends AbstractCommand {
 		CommandResult commandResult = new CommandResult();
 		
 		StringBuilder message = new StringBuilder("");
-
-		Colour requestColour = request.getCar().getColor();
+		
 		ParkingLot parkingLot = ParkingLot.getParkingLot();
 		if (parkingLot != null) {
 			Car[] cars = parkingLot.getParkingSlots();
 			if (cars == null || cars.length <= 0) {
-				message.append("No Registration Number Car available for Colour : " + requestColour.name());
+				
 			} else {
+				message.append("Slot No.").append("\t").append("Registration No").append("\t").append("Colour");
+				message.append("\n");
 				for (int count = 0; count < cars.length; count++) {
-					Car localCar = cars[count];
-					if (localCar != null) {
-						if (localCar.getColor().equals(requestColour)) {
-							message.append(cars[count].getRegistrationNumber());
-							if (count < cars.length) {
-								message.append(", ");
-							}
-						}
+					if (cars[count] != null) {
+						message.append(count + 1).append("\t").append(cars[count].getRegistrationNumber()).append("\t")
+							.append(cars[count].getColour().name());
 					}
+					message.append("\n");
 				}
 			}
 		}
@@ -70,7 +66,7 @@ public class RegistrationNoCarWithColourCommand extends AbstractCommand {
 
 	/**
 	 * To validate the command which has been requested by the client. This method will validate all the inputs of 
-	 * command REGISTRATION_NUMBERS_FOR_CARS_WITH_COLOUR
+	 * command SLOT_NUMBERS_FOR_REGISTRATION_NUMBER
 	 * 
 	 * @param commandRequest :
 	 * 		CommandRequest object which contains message.
@@ -80,20 +76,13 @@ public class RegistrationNoCarWithColourCommand extends AbstractCommand {
 	 */
 	@Override
 	public void validateCommand(CommandRequest commandRequest) throws ValidationException {
-		logger.trace("Enter validateCommand");
-		
-		if (commandRequest.getLineInput().length() < (currentCommand.getKey().length() + 2)) {
+		if (commandRequest.getLineInput().length() < (currentCommand.getKey().length())) {
 			throw new ValidationException("Invalid Input");
 		}
-		
 		String[] inputs = commandRequest.getLineInput().split(" ");
-		if (inputs.length < 2) {
+		if (inputs.length < 1) {
 			throw new ValidationException("");
 		}
 		commandRequest.setCommand(currentCommand); 
-		Car car = new Car();
-		car.setColor(Colour.getColourByName(inputs[1]));
-		commandRequest.setCar(car);
-		logger.trace("Exit validateCommand");
 	}
 }

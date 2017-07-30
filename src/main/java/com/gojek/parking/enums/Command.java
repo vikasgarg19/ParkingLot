@@ -1,6 +1,7 @@
 package com.gojek.parking.enums;
 
 /**
+ * To maintain various command in ParkingLotSystem.
  * 
  * @author Vikas Garg
  */

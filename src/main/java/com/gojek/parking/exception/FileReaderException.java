@@ -1,5 +1,11 @@
 package com.gojek.parking.exception;
 
+/**
+ * Exception class for FileReader operation.
+ * 
+ * @author Vikas Garg
+ *
+ */
 public class FileReaderException extends Exception {
 
 	/**

@@ -1,5 +1,11 @@
 package com.gojek.parking.exception;
 
+/**
+ * Exception class for ParkingLot System.
+ * 
+ * @author Vikas Garg
+ *
+ */
 public class ParkingLotException extends Exception {
 
 	/**

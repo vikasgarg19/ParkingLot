@@ -2,23 +2,34 @@ package com.gojek.parking.factory;
 
 import org.apache.log4j.Logger;
 
+import com.gojek.parking.command.AbstractCommand;
+import com.gojek.parking.command.CreateParkingLotCommand;
+import com.gojek.parking.command.LeaveCommand;
+import com.gojek.parking.command.ParkCommand;
+import com.gojek.parking.command.RegistrationNoCarWithColourCommand;
+import com.gojek.parking.command.SlotForCarWithColourCommand;
+import com.gojek.parking.command.SlotNumberForRegNoCommand;
+import com.gojek.parking.command.StatusCommand;
 import com.gojek.parking.enums.Command;
 import com.gojek.parking.exception.ValidationException;
 import com.gojek.parking.request.CommandRequest;
-import com.gojek.parking.runner.AbstractCommand;
-import com.gojek.parking.runner.CreateParkingLotCommand;
-import com.gojek.parking.runner.LeaveCommand;
-import com.gojek.parking.runner.ParkCommand;
-import com.gojek.parking.runner.RegistrationNoCarWithColourCommand;
-import com.gojek.parking.runner.SlotForCarWithColourCommand;
-import com.gojek.parking.runner.SlotNumberForRegNoCommand;
-import com.gojek.parking.runner.StatusCommand;
 
+/**
+ * Factory class for Command
+ * 
+ * @author Vikas Garg
+ *
+ */
 public class CommandFactory {
 
 	private static final Logger logger = Logger.getLogger(CommandFactory.class);
 	
-	public static AbstractCommand getExecutor(Command command) {
+	/**
+	 * To get the Command based on supplied command object.
+	 * @param command
+	 * @return
+	 */
+	public static AbstractCommand getCommand(Command command) {
 		logger.trace("Enter getExecutor with command : " + command);
 		
 		AbstractCommand executor = null;
@@ -52,26 +63,34 @@ public class CommandFactory {
 		return executor;
 	}
 	
+	/**
+	 * To parse input based on supplied input line.
+	 * 
+	 * @param input :
+	 * 		
+	 * @return :
+	 * 		
+	 * @throws ValidationException
+	 */
 	public static CommandRequest parseInput(String input) throws ValidationException {
 		AbstractCommand runner = null;
 		if (input.toLowerCase().startsWith(Command.CREATE_PARKING_LOT.getKey())) {
-			 runner = getExecutor(Command.CREATE_PARKING_LOT);
+			 runner = getCommand(Command.CREATE_PARKING_LOT);
 		} else if (input.toLowerCase().startsWith(Command.PARK.getKey())) {
-			runner = getExecutor(Command.PARK);
+			runner = getCommand(Command.PARK);
 		} else if (input.toLowerCase().startsWith(Command.LEAVE.getKey())) {
-			runner = getExecutor(Command.LEAVE);
+			runner = getCommand(Command.LEAVE);
 		} else if (input.toLowerCase().startsWith(Command.STATUS.getKey())) {
-			runner = getExecutor(Command.STATUS);
+			runner = getCommand(Command.STATUS);
 		} else if (input.toLowerCase().startsWith(Command.REGISTRATION_NUMBERS_FOR_CARS_WITH_COLOUR.getKey())) {
-			runner = getExecutor(Command.REGISTRATION_NUMBERS_FOR_CARS_WITH_COLOUR);
+			runner = getCommand(Command.REGISTRATION_NUMBERS_FOR_CARS_WITH_COLOUR);
 		} else if (input.toLowerCase().startsWith(Command.SLOT_NUMBERS_FOR_CARS_WITH_COLOUR.getKey())) {
-			runner = getExecutor(Command.SLOT_NUMBERS_FOR_CARS_WITH_COLOUR);
+			runner = getCommand(Command.SLOT_NUMBERS_FOR_CARS_WITH_COLOUR);
 		} else if (input.toLowerCase().startsWith(Command.SLOT_NUMBERS_FOR_REGISTRATION_NUMBER.getKey())) {
-			runner = getExecutor(Command.SLOT_NUMBERS_FOR_REGISTRATION_NUMBER);
+			runner = getCommand(Command.SLOT_NUMBERS_FOR_REGISTRATION_NUMBER);
 		}
 		if (runner == null) {
 			//throw new ValidationException("");
-			System.out.println(input);
 		}
 		return runner.parseCommand(input);
 	}

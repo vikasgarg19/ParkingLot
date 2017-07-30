@@ -1,25 +1,27 @@
-package com.gojek.parking.runner;
+package com.gojek.parking.command;
 
 import org.apache.log4j.Logger;
 
+import com.gojek.parking.domain.Car;
 import com.gojek.parking.domain.ParkingLot;
+import com.gojek.parking.enums.Colour;
 import com.gojek.parking.enums.Command;
 import com.gojek.parking.exception.ValidationException;
 import com.gojek.parking.request.CommandRequest;
 import com.gojek.parking.response.CommandResult;
 
 /**
- * This class is for handling various cases of "LEAVE" command.
+ * This class is for handling various cases of "REGISTRATION_NUMBERS_FOR_CARS_WITH_COLOUR" command.
  * 
  * @author Vikas Garg
  *
  */
-public class LeaveCommand extends AbstractCommand {
+public class RegistrationNoCarWithColourCommand extends AbstractCommand {
 
-	private static final Logger logger = Logger.getLogger(LeaveCommand.class);
+	private static final Logger logger = Logger.getLogger(RegistrationNoCarWithColourCommand.class);
 	
-	public LeaveCommand() {
-		super.currentCommand = Command.LEAVE;
+	public RegistrationNoCarWithColourCommand() {
+		super.currentCommand = Command.REGISTRATION_NUMBERS_FOR_CARS_WITH_COLOUR;
 	}
 	
 	/**
@@ -37,25 +39,38 @@ public class LeaveCommand extends AbstractCommand {
 		logger.trace("Enter execute");
 		CommandResult commandResult = new CommandResult();
 		
+		StringBuilder message = new StringBuilder("");
+
+		Colour requestColour = request.getCar().getColour();
 		ParkingLot parkingLot = ParkingLot.getParkingLot();
-		int freeSlot = -1;
 		if (parkingLot != null) {
-			freeSlot = parkingLot.unparkCar(Integer.parseInt(request.getDataInput()));
+			Car[] cars = parkingLot.getParkingSlots();
+			if (cars == null || cars.length <= 0) {
+				message.append("No Registration Number Car available for Colour : " + requestColour.name());
+			} else {
+				for (int count = 0; count < cars.length; count++) {
+					Car localCar = cars[count];
+					if (localCar != null) {
+						if (localCar.getColour().equals(requestColour)) {
+							message.append(cars[count].getRegistrationNumber());
+							if (count < cars.length) {
+								message.append(", ");
+							}
+						}
+					}
+				}
+			}
 		}
 		// Result Preparation
 		commandResult.setSuccess(true);
-		StringBuilder message = new StringBuilder("Slot number ");
-		message.append(freeSlot);
-		message.append(" is free");
 		commandResult.setMessage(message.toString());
-		
 		logger.trace("Exit execute");
 		return commandResult;
 	}
 
 	/**
 	 * To validate the command which has been requested by the client. This method will validate all the inputs of 
-	 * command LEAVE
+	 * command REGISTRATION_NUMBERS_FOR_CARS_WITH_COLOUR
 	 * 
 	 * @param commandRequest :
 	 * 		CommandRequest object which contains message.
@@ -66,30 +81,19 @@ public class LeaveCommand extends AbstractCommand {
 	@Override
 	public void validateCommand(CommandRequest commandRequest) throws ValidationException {
 		logger.trace("Enter validateCommand");
+		
 		if (commandRequest.getLineInput().length() < (currentCommand.getKey().length() + 2)) {
 			throw new ValidationException("Invalid Input");
 		}
 		
 		String[] inputs = commandRequest.getLineInput().split(" ");
 		if (inputs.length < 2) {
-			throw new ValidationException("Insufficient Input Command for : " + currentCommand.name() + 
-				commandRequest.getLineInput());
+			throw new ValidationException("");
 		}
-		
-		Integer leaveSlotNumber = null;
-		
-		try {
-			leaveSlotNumber = Integer.parseInt(inputs[1]);
-		} catch (NumberFormatException exception) {
-			throw new ValidationException("Invalid Leave Slot Number ", exception);
-		}
-		
-		if (leaveSlotNumber < 1) {
-			throw new ValidationException("Invalid Leave Slot Number : " + leaveSlotNumber);
-		}
-	
-		commandRequest.setCommand(Command.LEAVE);
-		commandRequest.setDataInput(String.valueOf(leaveSlotNumber));
+		commandRequest.setCommand(currentCommand); 
+		Car car = new Car();
+		car.setColour(Colour.getColourByName(inputs[1]));
+		commandRequest.setCar(car);
 		logger.trace("Exit validateCommand");
 	}
 }

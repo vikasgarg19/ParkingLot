@@ -1,4 +1,4 @@
-package com.gojek.parking.runner;
+package com.gojek.parking.command;
 
 import org.apache.log4j.Logger;
 

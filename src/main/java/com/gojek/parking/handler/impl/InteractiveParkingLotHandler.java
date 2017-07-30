@@ -14,10 +14,27 @@ import com.gojek.parking.parser.CommandParser;
 import com.gojek.parking.request.CommandRequest;
 import com.gojek.parking.response.CommandResult;
 
+/**
+ * The handler class which will process Interactive command system.
+ * 
+ * @author Vikas Garg
+ *
+ */
 public class InteractiveParkingLotHandler implements IParkingLotHandler {
 
 	private static final Logger logger = Logger.getLogger(InteractiveParkingLotHandler.class);
 	
+	/**
+	 * To handle Input for ParkingLot system.
+	 * 
+	 * @param input :
+	 * 
+	 * @return :
+	 * 		Output of the file execution.
+	 * 		
+	 * @throws ParkingLotException :
+	 * 		Exception if there is any.
+	 */
 	@Override
 	public String handle(String input) throws ParkingLotException {
 		String output = null;
@@ -40,7 +57,7 @@ public class InteractiveParkingLotHandler implements IParkingLotHandler {
 				e.printStackTrace();
 			}
 			if (commandRequest != null) {
-				CommandResult result = CommandFactory.getExecutor(commandRequest.getCommand()).execute(commandRequest);
+				CommandResult result = CommandFactory.getCommand(commandRequest.getCommand()).execute(commandRequest);
 				if (result.isSuccess()) {
 					output = result.getMessage();
 					System.out.println(output);

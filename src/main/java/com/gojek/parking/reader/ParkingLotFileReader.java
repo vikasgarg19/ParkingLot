@@ -10,10 +10,28 @@ import org.apache.log4j.Logger;
 
 import com.gojek.parking.exception.FileReaderException;
 
+/**
+ * FileReader class to read a file
+ * 
+ * @author Vikas Garg
+ *
+ */
 public class ParkingLotFileReader {
 
 	private static final Logger logger = Logger.getLogger(ParkingLotFileReader.class);
 	
+	/**
+	 * To read the file and provide the contents of the file.
+	 * 
+	 * @param inputFile :
+	 * 		File Name and its path.
+	 * 
+	 * @return :
+	 * 		Content of the files.
+	 * 
+	 * @throws FileReaderException :
+	 * 		If there is any exception in reading the file.
+	 */
 	public static List<String> readFile(String inputFile) throws FileReaderException {
 		
 		if (inputFile == null || inputFile.isEmpty()) {

@@ -1,5 +1,11 @@
 package com.gojek.parking.exception;
 
+/**
+ * Exception class for various input validation in ParkingLot system.
+ * 
+ * @author Vikas Garg
+ *
+ */
 public class ValidationException extends Exception {
 
 	/**

@@ -15,10 +15,28 @@ import com.gojek.parking.reader.ParkingLotFileReader;
 import com.gojek.parking.request.CommandRequest;
 import com.gojek.parking.response.CommandResult;
 
+/**
+ * The handler class which will process FileSystem.
+ * 
+ * @author Vikas Garg
+ *
+ */
 public class FileParkingLotHandler implements IParkingLotHandler {
 
 	private static final Logger logger = Logger.getLogger(FileParkingLotHandler.class);
 	
+	/**
+	 * To handle Input for ParkingLot system.
+	 * 
+	 * @param inputFile :
+	 * 		File Path and its name
+	 * 
+	 * @return :
+	 * 		Output of the file execution.
+	 * 		
+	 * @throws ParkingLotException :
+	 * 		Exception if there is any.
+	 */
 	@Override
 	public String handle(String inputFile) throws ParkingLotException {
 		logger.trace("Enter handle");
@@ -45,7 +63,7 @@ public class FileParkingLotHandler implements IParkingLotHandler {
 		}
 		if (commandRequestList != null && !commandRequestList.isEmpty()) {
 			for (CommandRequest commandRequest : commandRequestList) {
-				CommandResult result = CommandFactory.getExecutor(commandRequest.getCommand()).execute(commandRequest);
+				CommandResult result = CommandFactory.getCommand(commandRequest.getCommand()).execute(commandRequest);
 				if (result.isSuccess()) {
 					output.append(result.getMessage());
 					output.append("\n");
