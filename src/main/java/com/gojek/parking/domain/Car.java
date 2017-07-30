@@ -1,6 +1,6 @@
 package com.gojek.parking.domain;
 
-import com.gojek.parking.enums.Color;
+import com.gojek.parking.enums.Colour;
 
 /**
  * 
@@ -11,7 +11,7 @@ public class Car {
 
 	private String registrationNumber = null;
 	
-	private Color color = null;
+	private Colour color = null;
 
 	public String getRegistrationNumber() {
 		return registrationNumber;
@@ -21,11 +21,11 @@ public class Car {
 		this.registrationNumber = registrationNumber;
 	}
 
-	public Color getColor() {
+	public Colour getColor() {
 		return color;
 	}
 
-	public void setColor(Color color) {
+	public void setColor(Colour color) {
 		this.color = color;
 	}
 
