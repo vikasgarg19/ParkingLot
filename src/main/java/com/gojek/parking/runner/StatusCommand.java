@@ -47,6 +47,7 @@ public class StatusCommand extends AbstractCommand {
 				
 			} else {
 				message.append("Slot No.").append("\t").append("Registration No").append("\t").append("Colour");
+				message.append("\n");
 				for (int count = 0; count < cars.length; count++) {
 					if (cars[count] != null) {
 						message.append(count + 1).append("\t").append(cars[count].getRegistrationNumber()).append("\t")
