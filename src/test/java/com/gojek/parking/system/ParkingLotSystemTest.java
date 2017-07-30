@@ -6,7 +6,7 @@ public class ParkingLotSystemTest {
 	public static void main(String[] args) {
 		// File Input
 		ParkingLotSystem parkingLotSystem = new ParkingLotSystem();
-		System.out.println(parkingLotSystem.parkingLot("src//test/resources//input.txt"));
+		System.out.println(parkingLotSystem.parkingLot("src//main//resources//input.txt"));
 		
 		
 		// Interactive System
