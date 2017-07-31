@@ -44,7 +44,8 @@ public class ParkCommand extends AbstractCommand {
 		
 		String[] inputs = commandRequest.getLineInput().split(" ");
 		if (inputs.length < 3) {
-			throw new ValidationException("");
+			throw new ValidationException("Invalid Command Format for : " + currentCommand.name() + 
+				commandRequest.getLineInput());
 		}
 
 		// park KA-01-HH-1234 White

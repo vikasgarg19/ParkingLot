@@ -90,7 +90,7 @@ public class CommandFactory {
 			runner = getCommand(Command.SLOT_NUMBERS_FOR_REGISTRATION_NUMBER);
 		}
 		if (runner == null) {
-			//throw new ValidationException("");
+			throw new ValidationException("Invalid Input");
 		}
 		return runner.parseCommand(input);
 	}

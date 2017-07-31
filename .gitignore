@@ -51,4 +51,4 @@ local.properties
 # External tool builders
 .externalToolBuilders/
 
-
+test-output/**

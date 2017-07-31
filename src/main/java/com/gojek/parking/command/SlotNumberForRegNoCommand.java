@@ -88,7 +88,8 @@ public class SlotNumberForRegNoCommand extends AbstractCommand {
 		
 		String[] inputs = commandRequest.getLineInput().split(" ");
 		if (inputs.length < 2) {
-			throw new ValidationException("");
+			throw new ValidationException("Invalid Command Format for : " + currentCommand.name() + 
+				commandRequest.getLineInput());
 		}
 		commandRequest.setCommand(currentCommand); 
 		Car car = new Car();

@@ -49,16 +49,21 @@ public class SlotForCarWithColourCommand extends AbstractCommand {
 			if (cars == null || cars.length <= 0) {
 				message.append("No slot available with Colour : " + requestColour.name());
 			} else {
+				Car matchedCar = null;
 				for (int count = 0; count < cars.length; count++) {
 					Car localCar = cars[count];
 					if (localCar != null) {
 						if (localCar.getColour().equals(requestColour)) {
+							matchedCar = localCar;
 							message.append(count+1);
 							if (count < cars.length) {
 								message.append(", ");
 							}
 						}
 					}
+				}
+				if (matchedCar == null) {
+					message.append("No slot available with Colour : " + requestColour.name());
 				}
 			}
 		}
@@ -87,7 +92,8 @@ public class SlotForCarWithColourCommand extends AbstractCommand {
 		
 		String[] inputs = commandRequest.getLineInput().split(" ");
 		if (inputs.length < 2) {
-			throw new ValidationException("");
+			throw new ValidationException("Invalid Command Format for : " + currentCommand.name() + 
+				commandRequest.getLineInput());
 		}
 		commandRequest.setCommand(currentCommand); 
 		Car car = new Car();

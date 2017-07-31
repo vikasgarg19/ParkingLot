@@ -44,7 +44,7 @@ public class StatusCommand extends AbstractCommand {
 		if (parkingLot != null) {
 			Car[] cars = parkingLot.getParkingSlots();
 			if (cars == null || cars.length <= 0) {
-				
+				message.append("No Car Available in ParkingLot");
 			} else {
 				message.append("Slot No.").append("\t").append("Registration No").append("\t").append("Colour");
 				message.append("\n");
@@ -81,7 +81,8 @@ public class StatusCommand extends AbstractCommand {
 		}
 		String[] inputs = commandRequest.getLineInput().split(" ");
 		if (inputs.length < 1) {
-			throw new ValidationException("");
+			throw new ValidationException("Invalid Command Format for : " + currentCommand.name() + 
+				commandRequest.getLineInput());
 		}
 		commandRequest.setCommand(currentCommand); 
 	}

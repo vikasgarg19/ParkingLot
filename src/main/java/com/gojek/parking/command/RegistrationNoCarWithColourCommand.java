@@ -48,16 +48,21 @@ public class RegistrationNoCarWithColourCommand extends AbstractCommand {
 			if (cars == null || cars.length <= 0) {
 				message.append("No Registration Number Car available for Colour : " + requestColour.name());
 			} else {
+				Car matchedCar = null;
 				for (int count = 0; count < cars.length; count++) {
 					Car localCar = cars[count];
 					if (localCar != null) {
 						if (localCar.getColour().equals(requestColour)) {
+							matchedCar = localCar;
 							message.append(cars[count].getRegistrationNumber());
 							if (count < cars.length) {
 								message.append(", ");
 							}
 						}
 					}
+				}
+				if (matchedCar == null) {
+					message.append("No Registration Number Car available for Colour : " + requestColour.name());
 				}
 			}
 		}
@@ -88,7 +93,8 @@ public class RegistrationNoCarWithColourCommand extends AbstractCommand {
 		
 		String[] inputs = commandRequest.getLineInput().split(" ");
 		if (inputs.length < 2) {
-			throw new ValidationException("");
+			throw new ValidationException("Invalid Command Format for : " + currentCommand.name() + 
+				commandRequest.getLineInput());
 		}
 		commandRequest.setCommand(currentCommand); 
 		Car car = new Car();
