@@ -37,7 +37,6 @@ public class FileParkingLotHandler implements IParkingLotHandler {
 	 * @throws ParkingLotException :
 	 * 		Exception if there is any.
 	 */
-	@Override
 	public String handle(String inputFile) throws ParkingLotException {
 		logger.trace("Enter handle");
 		

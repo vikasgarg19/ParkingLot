@@ -20,5 +20,5 @@ public interface IParkingLotHandler {
 	 * @throws ParkingLotException :
 	 * 		Exception if there is any.
 	 */
-	String handle(String input) throws ParkingLotException;
+	public String handle(String input) throws ParkingLotException;
 }

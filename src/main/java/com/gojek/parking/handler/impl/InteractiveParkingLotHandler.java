@@ -35,7 +35,6 @@ public class InteractiveParkingLotHandler implements IParkingLotHandler {
 	 * @throws ParkingLotException :
 	 * 		Exception if there is any.
 	 */
-	@Override
 	public String handle(String input) throws ParkingLotException {
 		String output = null;
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));

@@ -311,7 +311,15 @@ Not found
 Run the following command -
 ```sh
 mvn clean install
+
+mvn package
 ```
 
 #Running the project
+cd /target/
 
+# with an input file
+java -jar -Dlog4j.configuration=file:/<Full Path>/log4j.properties ParkingLot.jar <Input.txt>
+
+# to interactive input
+java -jar -Dlog4j.configuration=file:/<Full Path>/log4j.properties ParkingLot.jar
