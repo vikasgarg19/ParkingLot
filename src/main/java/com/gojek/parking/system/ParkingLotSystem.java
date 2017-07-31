@@ -17,6 +17,24 @@ public class ParkingLotSystem {
 
 	private static final Logger logger = Logger.getLogger(ParkingLotSystem.class);
 	
+	public static void main(String[] args) {
+		IParkingLotHandler parkingLotHandler = null;
+		String input = null;
+		if (args == null || args.length < 1) {
+			// It is interactive Handler
+			parkingLotHandler = new InteractiveParkingLotHandler();
+		} else {
+			input = args[0];
+			// Consider this as FileSystem Handler
+			parkingLotHandler = new FileParkingLotHandler();	
+		}
+		try {
+			System.out.println(parkingLotHandler.handle(input));
+		} catch (ParkingLotException e) {
+			logger.error("ParkingLotSystem Error", e);
+		}
+	}
+	
 	/**
 	 * To manage parkingLot
 	 * 
